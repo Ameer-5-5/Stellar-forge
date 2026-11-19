@@ -14,6 +14,8 @@
 // SPDX-License-Identifier: Apache-2.0
 //! API definitions and validation helpers for Kubernetes custom resources.
 
+pub mod stellarnode_types;
 pub mod validation;
 
+pub use stellarnode_types::{AutoscalerSpec, AutoscalerStatus};
 pub use validation::*;
