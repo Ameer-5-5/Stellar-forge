@@ -10,7 +10,7 @@
 - `values.schema.json` — JSON Schema (draft-07) that validates user-supplied values at install/upgrade time, covering core fields such as `image`, `operator`, `service`, `webhook`, and `logShipper`.
 - `UPGRADE_GUIDE.md` — Step-by-step upgrade instructions, including the pre-upgrade checklist, version-specific migration notes, rollback procedure, post-upgrade verification, and troubleshooting.
 - `dashboards/` — Grafana dashboard JSON definitions that can be imported into the monitoring namespace:
-  - `cost-dashboard.json` — Monthly/per-node cost and budget dashboards backed by the `stellar_cost_*` metrics.
+  - `cost-dashboard.json` — Cost optimization dashboard (monthly cost, cost by namespace, forecast, anomalies, spot savings, right-sizing) backed by the `stellar_cost_*` metrics.
   - `operator-health.json` — Operator health and performance dashboard (reconciliation rate/duration, error rate, managed nodes, CPU/memory).
 - `examples/` — Ready-to-use values files for common environments:
   - `values-development.yaml` — Local development settings (debug logging, relaxed security, minimal resources, hooks disabled).
@@ -22,7 +22,7 @@
   - `ha.yaml` — Rendered manifests using `values-ha.yaml`.
   - `dr-cross-region.yaml` — Rendered manifests with cross-region DR/failover enabled.
 - `templates/` — Helm templates that render the Kubernetes manifests:
-  - `_helpers.tpl` — Named-template helpers for resource names, labels, selector labels, service account, images, and hook scripts.
+  - `_helpers.tpl` — Named-template helpers for resource names, labels, selector labels, service account name, component labels, and container images.
   - `_hook-job.tpl` — Shared Helm hook Job skeleton used by the pre-install and pre-upgrade hooks.
   - `byzantine-watcher.yaml` — Per-region watcher Deployments/Services that poll Stellar Core and export consensus metrics for Byzantine-partition detection.
   - `cert-manager-certificates.yaml` — cert-manager `Certificate` resources configured through `certManagement.certificates`.
