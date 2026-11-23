@@ -1,80 +1,99 @@
-# Stellar-K8s
+# Yield Stablecoin
 
-Kubernetes operator and tooling for running Stellar Core and Soroban RPC nodes.
+`yield-stablecoin` is a SEP-41–compatible fungible token for Stellar Soroban
+that layers two capabilities on top of the standard token interface:
+programmable compliance and proportional yield distribution. Every mint,
+burn, transfer, and approval passes through a compliance gate that blocks
+blacklisted (sanctions-listed) and frozen addresses, and an admin multi-sig
+can distribute yield by minting new tokens in proportion to each holder's
+share of the total supply. The contract is a standalone Soroban workspace
+(it declares its own `[workspace]` in `Cargo.toml`), independent of the root
+Stellar-K8s binary-crate workspace.
 
-## Quickstart
+## Compliance model
 
-Get a Stellar Core validator running on an existing Kubernetes cluster in under
-five minutes.
+Two independent restrictions are enforced by the hooks in `src/hooks.rs`
+before any state mutation:
 
-**Prerequisites:** `kubectl` ≥ 1.28, `helm` ≥ 3.14, cluster with at least one
-node (kind, k3s, EKS, GKE, AKS all work).
+- **Blacklist (sanctions list)** — permanently blocks an address from all
+  inbound and outbound flows. Adding an address requires the admin; removing
+  one requires the stricter `unblacklist_threshold` multi-sig quorum.
+- **Freeze** — temporarily halts all flows for an address and is reversible
+  by a single admin via `thaw_address`.
+
+## Yield distribution
+
+`distribute_yield` is authorized by the multi-sig quorum and mints
+`total_yield_amount` tokens, crediting each recipient
+`recipient_balance * total_yield_amount / total_supply_snapshot` (integer
+division; rounding dust stays unminted). Blacklisted or frozen recipients are
+skipped without aborting the epoch, so one restricted address cannot block
+the whole distribution.
+
+## Public functions
+
+All functions below are defined in `src/lib.rs` on the `YieldStablecoin`
+contract.
+
+- `__constructor` — Initializes the contract once: sets the admin, token
+  metadata (name, symbol, decimals), the multi-sig signer set, and the
+  standard and un-blacklist quorum thresholds.
+- `name` — Returns the token name.
+- `symbol` — Returns the token symbol.
+- `decimals` — Returns the number of decimal places (immutable after
+  initialization).
+- `total_supply` — Returns the total circulating supply.
+- `balance` — Returns the token balance of an address (0 if the address has
+  never held tokens).
+- `allowance` — Returns the spending allowance an owner granted to a spender.
+- `transfer` — Transfers `amount` tokens from `from` to `to`; requires the
+  sender's authorization and compliance clearance for both parties.
+- `transfer_from` — Transfers `amount` tokens from `from` to `to` using the
+  spender's pre-approved allowance.
+- `approve` — Approves `spender` to transfer up to `amount` on behalf of
+  `owner`.
+- `mint` — Mints `amount` new tokens to `to`; admin-only, and the recipient
+  must pass the compliance gate.
+- `burn` — Burns `amount` tokens from `from`; requires the holder's
+  authorization and send-clearance.
+- `distribute_yield` — Multi-sig authorized yield distribution: mints
+  `total_yield_amount` and credits each recipient a proportional share of it
+  based on their balance over the total-supply snapshot, skipping restricted
+  recipients.
+- `blacklist_address` — Adds an address to the on-chain sanctions list
+  (admin-only).
+- `unblacklist_address` — Removes an address from the sanctions list;
+  requires the stricter `unblacklist_threshold` multi-sig quorum.
+- `freeze_address` — Freezes an address, halting all inbound and outbound
+  flows (admin-only).
+- `thaw_address` — Lifts the freeze on an address (admin-only).
+- `update_multisig` — Replaces the multi-sig signer set and both thresholds;
+  requires the current quorum.
+- `set_admin` — Transfers admin authority to a new address.
+- `is_blacklisted` — Returns `true` if the address is on the sanctions list.
+- `is_frozen` — Returns `true` if the address is currently frozen.
+
+## Build
+
+The contract uses `soroban-sdk` 27, which builds for the `wasm32v1-none`
+target on Rust 1.82+ (not `wasm32-unknown-unknown`, whose default Wasm
+features the Soroban host rejects).
 
 ```bash
-# 1. Install the CRD
-kubectl apply -f config/crd/stellarnode-crd.yaml
-
-# 2. Deploy the operator via Helm
-helm install stellar-operator charts/stellar-operator \
-  --namespace stellar-system --create-namespace
-
-# 3. Apply a minimal validator manifest
-kubectl apply -f config/samples/minimal-validator.yaml
-
-# 4. Watch the node come up
-kubectl get stellarnodes -n stellar -w
+cd contracts/yield-stablecoin
+rustup target add wasm32v1-none   # one-time, if the target is missing
+cargo build --target wasm32v1-none --release
 ```
 
-Run `./scripts/quickstart-verify.sh` to validate your local setup before
-deploying to a cluster. See `make quickstart` for a fully automated local path
-using kind.
+## Test
 
-## WebAssembly Fail-Open Caching Layer for Soroban RPC State Reads
-
-High-frequency state reads from Soroban RPC nodes place significant load on the
-underlying Stellar Core instances. Stellar-K8s ships a WebAssembly plugin that
-intercepts read-only Soroban RPC state reads and serves them from a bounded,
-in-sandbox LRU cache, reducing latency and RPC load for dApp builders.
-
-### How it works
-
-* The plugin is loaded through the existing **Custom Validation Plugin** system
-  and intercepts state read requests before they reach the Soroban RPC.
-* An **LRU cache** is maintained strictly inside the Wasm sandbox. Entries are
-  evicted by least-recently-used order once the configured size bound is hit.
-* The layer is **fail-open**: if the cache fails, panics, or hits its memory
-  limit, the request is transparently bypassed and routed to the underlying RPC
-  node. No requests are dropped and there is no user-facing disruption.
-* Memory allocation is strictly bounded so the sandbox cannot be crashed by
-  out-of-memory conditions, and the compiled Wasm binary stays under 2MB.
-
-### Configuration
-
-The cache respects TTL and size settings supplied via a standard Kubernetes
-ConfigMap. Cluster operators can tune the TTL to control how long cached state
-reads remain valid before being re-fetched from the RPC node.
-
-```yaml
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: soroban-rpc-cache-config
-  namespace: stellar
-data:
-  # Time-To-Live for cached state reads, in seconds.
-  cache_ttl_seconds: "30"
-  # Maximum number of entries retained in the LRU cache.
-  cache_max_entries: "10000"
-  # Upper bound on sandbox memory for the cache, in bytes.
-  cache_max_memory_bytes: "16777216"
+```bash
+cd contracts/yield-stablecoin
+cargo test
 ```
 
-Reference this ConfigMap from the Soroban RPC node configuration to enable the
-caching layer. Lower TTL values favor freshness; higher values reduce RPC load
-at the cost of serving slightly staler state reads.
-
-### Validation
-
-Unit tests cover the LRU caching logic, and an integration test simulates
-10k read requests/second to demonstrate reduced RPC load and correct fail-open
-fallback behavior when the cache is forced to fail.
+The unit-test suite in `src/test.rs` covers metadata and supply accounting,
+mint/burn/transfer happy paths, approve and `transfer_from`, blacklist and
+freeze enforcement (including the multi-sig quorum needed to un-blacklist),
+proportional yield distribution with dust and restricted-recipient skipping,
+multi-sig config updates, and admin transfer.
