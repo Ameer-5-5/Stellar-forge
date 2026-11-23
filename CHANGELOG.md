@@ -5,6 +5,218 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 
+## Chart v3.1.0 (2026-11-23) [minor]
+
+• Merge pull request #725 from devogechukwu/docs/emergency-breaker-readme
+• Docs/emergency breaker readme
+• Merge pull request #738 from danielchukuma-dev/docs/cross-shard-readme
+• [Docs] Add README for cross-shard contract
+• Merge pull request #765 from Devadakene/docs/examples-debug-readme
+📝 docs(examples/debug): add README documenting debug pod manifests
+• Merge pull request #774 from Emmanuel945/feat/gitops-manager-cargo-toml
+✨ feat(contracts): add missing Cargo.toml for gitops-manager
+• Merge pull request #785 from Ameer-5-5/fix-issue-683
+📝 docs: fix repository links to point to Stellar-forge (#683)
+• Merge pull request #773 from khanavi272-spec/docs/wrapped-token-readme-678
+📝 docs: add wrapped-token contract README
+📝 docs: fix repository links to point to Stellar-forge (#683)
+• Merge pull request #764 from Deborahakin84/issue753
+• Add security examples and validation scripts for Stellar-K8s hardening
+• Merge pull request #766 from richiesplug/chore/remove-stale-advisory-ignores
+📝 chore(deps): remove stale RUSTSEC-2026-0085 and RUSTSEC-2026-0187 ign…
+• Merge pull request #767 from richiesplug/fix/fee-vault-cargo-toml
+🐛 fix(contracts): add Cargo.toml for fee-vault Soroban contract
+• Merge pull request #768 from richiesplug/docs/telemetry-dashboard-readme
+📝 docs(telemetry/dashboard): add README documenting dashboard files and…
+• Merge pull request #769 from ugoocreates-pixel/docs/examples-plugins-readme
+📝 docs: add README to examples/plugins
+• Merge pull request #770 from p70436464-prog/docs/wasm-plugins-readme
+📝 docs: add README for examples/wasm-plugins
+• Merge pull request #771 from Kappa16/#679-Docs-Add-a-README-for-the-yield-stablecoin-contract-FIX
+• #679 Docs Add a README for the yield-stablecoin contract FIXED
+• Merge pull request #763 from Mickart0373/issu745
+• add README for smart contract examples showcasing storage and fee-oracle integration
+• Merge branch 'main' into issu745
+• Merge pull request #762 from Mickart0373/issue748
+• Add README for Disaster Recovery examples and operational scripts
+• Merge pull request #761 from Mickart0373/issue750
+• Add README for Stellar-K8s operator examples
+• Merge pull request #760 from Mickart0373/issue746
+• add README for contract examples with directory overview and usage instructions
+• Merge pull request #741 from Phantom-0017/docs/stellar-operator-readme
+• Docs/stellar operator readme
+• Merge pull request #740 from Phantom-0017/docs/benchmarks-scripts-readme-692
+📝 docs: add README for benchmarks/scripts (#692)
+• Merge pull request #739 from Cornelius128/main
+• Update documentation links and add TWAP oracle README
+• Merge pull request #736 from CenturionZi/issue472
+• Refactor leader election and readiness handling in the operator
+• Merge pull request #735 from CenturionZi/issue530
+• add connection failed notification message
+• Merge pull request #734 from CenturionZi/issue228
+• Refactor code structure for improved readability and maintainability
+• Merge pull request #732 from maxx-GENIUS/docs/snapshot-assert-readme
+📝 docs(snapshot-assert): add contract README
+• Merge pull request #733 from CenturionZi/issue641
+• Add incident response guidelines to documentation
+• Merge pull request #737 from ovie199/main
+• #650 [Docs] Add a README for the did-registry contract
+• Merge pull request #772 from mubaraktemilade-collab/fix/issue-756-enhance-add-a-readme-to-scripts-lib
+📝 docs: add README to scripts/lib
+✨ feat(contracts): add Cargo.toml for gitops-manager
+• Add the missing manifest so the Soroban contract can be built and
+• tested, following contracts/bonding-curve/Cargo.toml. The source only
+• uses soroban-sdk, so declare that dependency and the testutils dev
+• feature.
+• Closes #759
+📝 docs: add wrapped-token contract README
+🐛 fix: [Enhance] Add a README to `scripts/lib` (#756)
+• #679 Docs Add a README for the yield-stablecoin contract FIXED
+📝 docs: add README for examples/wasm-plugins
+📝 docs: add README to examples/plugins
+📝 chore(deps): remove stale RUSTSEC-2026-0085 and RUSTSEC-2026-0187 ignores
+🐛 fix(contracts): add Cargo.toml for fee-vault Soroban contract
+📝 docs(telemetry/dashboard): add README documenting dashboard files and folders
+📝 docs(examples/debug): add README documenting debug pod manifests
+• Add security examples and validation scripts for Stellar-K8s hardening
+• add README for smart contract examples showcasing storage and fee-oracle integration
+• Add README for Disaster Recovery examples and operational scripts
+• Add README for Stellar-K8s operator examples
+• add README for contract examples with directory overview and usage instructions
+📝 docs: correct README file descriptions
+📝 docs: add README to charts/stellar-operator
+• Closes #693
+📝 docs: add README for benchmarks/scripts (#692)
+• Update documentation repository links and TWAP oracle README
+• Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
+📝 docs(cross-shard): add contract README
+• Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
+• #650 [Docs] Add a README for the did-registry contract
+• Refactor leader election and readiness handling in the operator
+• - Removed the leader election logic from `run_operator` and encapsulated it in a `LeaseGuard` struct to manage lease acquisition and renewal.
+• - Introduced `leader_readiness` to track the readiness state of the leader, ensuring that only ready leaders can perform critical operations.
+• - Updated various components (e.g., snapshot worker, finalizer cleanup controller) to respect the leader state and readiness.
+• - Enhanced error handling and logging for lease operations.
+• - Modified the `readyz` endpoint to reflect the leader's readiness status based on various checks.
+• - Adjusted tests to accommodate the new leader readiness logic.
+• add connection failed notification message
+• Refactor code structure for improved readability and maintainability
+• Add incident response guidelines to documentation
+• - Introduced a structured approach for incident response including assessment, stabilization, and resolution steps.
+• - Included references to relevant runbooks for various scenarios such as disaster recovery, backup verification, and capacity planning.
+• - Emphasized the importance of documenting the incident timeline and actions taken for future reference.
+📝 docs(snapshot-assert): add contract README
+• Signed-off-by: maxx-GENIUS <340030598+maxx-GENIUS@users.noreply.github.com>
+• Merge pull request #715 from 0darkside0rbit-star/docs/648-dao-treasury-readme
+• Docs/648 dao treasury readme
+• Merge pull request #718 from onyekachi66/docs/bridge-relayer-readme
+📝 docs(bridge-relayer): add contract README
+• Merge pull request #716 from shaarknado/feat/471-soroban-rpc-autoscaler
+✨ feat(autoscaler): Soroban RPC auto-scaling controller (#471)
+• Merge pull request #717 from eegbinade-lang/docs/654-ephemeral-oracle-readme
+📝 docs: add README for the ephemeral-oracle contract
+• Merge pull request #726 from Gideon-DEV-Pixel/fix/issue-666-add-a-readme-for-the-multisig-factory-contract
+📝 docs: add README for multisig-factory contract
+• Merge pull request #727 from PYMANULTRAL/fix/issue-674-add-a-readme-for-the-stable-controller-contract
+📝 docs: add README for stable-controller contract
+• Merge pull request #728 from kolawoleridwan2020-cmyk/fix/241-governance-registry
+✨ feat(governance): add checkpointed delegation and voting registry
+• Merge pull request #729 from Ameer-5-5/fix-issue-695
+📝 docs: add README for config/chaos-drills (#695)
+• Merge pull request #730 from Ameer-5-5/fix-issue-696
+📝 docs: add README for config/crd (#696)
+• Merge pull request #731 from Scepter00/docs/646-cdp-engine-readme
+📝 docs(cdp-engine): document the CDP engine contract in a README
+📝 docs(cdp-engine): document the CDP engine contract in a README
+• The contract had no README, so contributors had to read src/lib.rs to learn
+• what it does or how to run its tests. Describe the vault model, the CR
+• formula and the liquidation/bad-debt flow, list every public entry point and
+• helper with a one-line description, and record the build and test commands
+• for the standalone Soroban workspace. Documentation only; no code changed.
+• Closes #646.
+📝 docs: add README for config/crd (#696)
+📝 docs: add README for config/chaos-drills (#695)
+✨ feat(governance): add checkpointed voting registry
+• Track historical balances and delegation checkpoints so transitive delegated voting power is evaluated at a proposal's creation ledger. Add threshold-gated proposals, quorum finalization, vote receipts, lifecycle errors, and regression tests for same-ledger writes and historical reads.
+• Closes #241
+🐛 fix: [Docs] Add a README for the `stable-controller` contract (#674)
+🐛 fix: [Docs] Add a README for the `multisig-factory` contract (#666)
+📝 docs: add README for emergency-breaker contract
+📝 docs(bridge-relayer): add contract README
+📝 docs: add README for the ephemeral-oracle contract
+📝 chore(helm): bump chart to v3.0.0 [skip ci]
+✨ feat(autoscaler): Soroban RPC auto-scaling controller (#471)
+• - Add controller/src/autoscaler.rs
+•   - AutoscalerConfig with env-var construction
+•   - ScalingAlgorithm::compute using integer ceiling division
+•     (total_pending + target - 1) / target — no floating-point drift
+•   - StabilisationWindow: scale-up immediate, scale-down held until
+•     configured window elapses to prevent pod thrashing
+•   - HpaBounds::clamp_with_warning: clamps desired into HPA range
+•     so the operator never fights an existing HPA
+•   - KubeClient trait abstracting Kubernetes API calls for testability
+•   - AutoscalerController::reconcile_once driving the full pipeline
+•   - 20 unit tests including 500% traffic spike SLA assertion
+• - Add controller/src/apis/stellarnode_types.rs
+•   - AutoscalerSpec: camelCase serde, serde defaults, validate()
+•   - AutoscalerStatus: optional fields with skip_serializing_if
+•   - Full serde round-trip and validation unit tests
+• - Update controller/src/apis/mod.rs
+•   - pub mod stellarnode_types; re-export AutoscalerSpec/AutoscalerStatus
+• - Update controller/src/lib.rs
+•   - pub mod apis; pub mod autoscaler; updated crate doc comment
+• Closes #471
+📝 docs: add DAO treasury contract README
+📝 docs: complete thin documentation pages
+• Merge pull request #698 from ect2000/docs/pol-treasury-671
+📝 docs(pol-treasury): add contract README
+• Merge pull request #657 from KingMavin/feat/rbac-security-hardening
+📝 docs(security): complete RBAC and security hardening manual and strict profile
+• Merge pull request #699 from ect2000/docs/options-amm-668
+📝 docs(options-amm): add contract README
+• Merge pull request #701 from mojeed-painless/feat/127-anomaly-detection-workbench
+• Feat/127 anomaly detection workbench
+• Merge pull request #700 from krsnak/bounty/697
+📝 docs(manifests): document operator and Gatekeeper manifests
+• Merge pull request #702 from comandanto/docs/zk-verifier-readme
+📝 docs(zk-verifier): add README for zk-verifier contract (#681)
+• Merge pull request #703 from HarsH-1877/docs/blue-green-readme
+📝 docs(config): add README for config/blue-green
+• Merge pull request #706 from Adesokan-2/fix/issue-685-doc-links
+📝 docs: correct Stellar-forge repository links
+• Merge pull request #707 from Adesokan-2/fix/issue-689-doc-links
+📝 docs: correct repository links in operations guides
+• Merge pull request #708 from Daniexie/fix/issue-669-add-a-readme-for-the-oracle-aggregator-contract
+📝 docs: add README for oracle-aggregator contract
+• Merge pull request #710 from Ghostcecode/fix/issue-687-update-repository-links-in-3-docs-docs
+📝 docs: update repository links in WSL2 and interactive mode guides
+• Merge pull request #711 from PhilC1332/fix/issue-688-update-repository-links-in-3-docs-docs-load
+📝 docs: fix repository links in maintenance and Grafana docs
+• Merge pull request #712 from bankai-alpha/docs/yield-vault-readme
+📝 docs(yield-vault): add README for yield-vault contract
+📝 docs(yield-vault): add README for yield-vault contract
+• Signed-off-by: Koln <officialrrye7@gmail.com>
+🐛 fix: [Docs] Update repository links in 3 docs (`docs/load-testing (#688)
+🐛 fix: [Docs] Update repository links in 3 docs (`docs/infrastructu (#687)
+🐛 fix: [Docs] Add a README for the `oracle-aggregator` contract (#669)
+📝 docs: correct repository links in operations guides
+📝 docs: correct Stellar-forge repository links
+📝 docs(config): add README for config/blue-green
+• Signed-off-by: HarsH <harshasalkar7@gmail.com>
+📝 docs(zk-verifier): add README for zk-verifier contract (#681)
+🐛 fix(frontend): resolve React TSX diagnostics
+✨ feat(frontend): add cluster anomaly detection workbench
+✨ feat(frontend): add cluster anomaly detection workbench
+📝 docs(manifests): document operator and Gatekeeper manifests
+• Signed-off-by: krsnak <krsnak.roman@gmail.com>
+📝 docs(options-amm): document contract entry points
+• Signed-off-by: Emilio Castejón <107069576+ect2000@users.noreply.github.com>
+📝 docs(pol-treasury): add contract overview and usage
+• Signed-off-by: Emilio Castejón <107069576+ect2000@users.noreply.github.com>
+📝 docs(security): complete RBAC and security hardening manual and strict profile
+• Signed-off-by: Azreal_Kun <marvinkgab@gmail.com>
+
+
 ## Chart v3.0.0 (2026-11-20) [major]
 
 
