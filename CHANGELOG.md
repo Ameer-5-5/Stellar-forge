@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 
+
 ## Chart v3.0.0 (2026-11-20) [major]
 
 
@@ -2886,7 +2887,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 • before any signature validation loop.
 • ### src/policy.rs
 • - ExecutionPolicy struct persisted in Instance Storage with four
-•   fields: max_allowed_fee_stroops, 	wap_oracle, eference_twap_price,
+•   fields: max_allowed_fee_stroops, 	wap_oracle, 
+eference_twap_price,
 •   max_price_deviation_bps
 • - DataKey enum covering Admin, Signers, Threshold, Policy, TxCounter,
 •   PendingTx(u64), Signatures(u64)
@@ -2905,7 +2907,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 • ### src/lib.rs
 • - SmartMultiSig contract with __constructor, propose_transfer,
 •   pprove, execute_transfer(caller, tx_id, current_fee_stroops),
-•   set_policy, otate_admin, and read-only view functions
+•   set_policy, 
+otate_admin, and read-only view functions
 • - Three-step execute pipeline: policy pre-check -> threshold -> dispatch
 • - Checks-effects-interactions: tx marked executed before external call
 • - #[contractevent] events for all state transitions
